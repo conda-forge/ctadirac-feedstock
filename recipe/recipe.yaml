@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "3.2.6"
+  version: "3.3.0"
   python_min: "3.12"
 
 package:
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://files.pythonhosted.org/packages/source/c/ctadirac/ctadirac-${{ version }}.tar.gz
-  sha256: 68dacc0bdf04f35c1ca31a401fbfb5966b95c98e328b8c75ecc067fd2b6f091e
+  sha256: 8c87c59795b82b6bb4e127aff2d6612b9d5712fbcc5523bb9d81c9c82eca0460
 
 build:
   number: 0
