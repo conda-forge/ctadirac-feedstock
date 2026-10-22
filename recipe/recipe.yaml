@@ -1,8 +1,8 @@
 schema_version: 1
 
 context:
-  version: "3.3.0"
-  python_min: "3.12"
+  version: 3.3.1
+  python_min: '3.12'
 
 package:
   name: ctadirac
@@ -10,10 +10,10 @@ package:
 
 source:
   url: https://files.pythonhosted.org/packages/source/c/ctadirac/ctadirac-${{ version }}.tar.gz
-  sha256: 8c87c59795b82b6bb4e127aff2d6612b9d5712fbcc5523bb9d81c9c82eca0460
+  sha256: dcb5e2195ce0f5b68770663fb71b3e6139cc2d8d667550916ff0c2d54a71338a
 
 build:
-  number: 2
+  number: 0
   noarch: python
   script: ${{ PYTHON }} -m pip install . -vv
   python:
@@ -88,16 +88,16 @@ requirements:
     - pip
   run:
     - python >=${{ python_min }}
-    - dirac-grid ==9.1.20
     - ruamel.yaml
     - typer
     - ctao-datamodel
-
+    - astropy
+    - dirac ==9.1.20
 tests:
   - python:
       python_version:
         - ${{ python_min }}.*
-        - "*"
+        - '*'
       imports:
         - CTADIRAC
       pip_check: true
