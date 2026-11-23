@@ -8,3 +8,5 @@ conda_forge_output_validation: true
 
 bot:
   inspection: update-grayskull  # enable updating scripts and dependencies automatically
+  abi_migration_branches:
+    - "v2.x"
