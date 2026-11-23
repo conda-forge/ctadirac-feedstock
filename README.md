@@ -184,6 +184,29 @@ In order to produce a uniquely identifiable distribution:
    the [``build/number``](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#build-number-and-string)
    back to 0.
 
+Maintaining 2.x and 3.x releases
+------------------------------
+
+Use `main` for CTADIRAC 3.x releases and `v2.x` for CTADIRAC 2.x releases.
+Both branches publish the `ctadirac` package to the main `conda-forge` channel.
+Users can select a release series with, for example, `conda install "ctadirac=2.*"`
+or `conda install "ctadirac=3.*"`.
+
+To initialize `v2.x`, branch from `main` in a fork and prepare
+`recipe/recipe.yaml` for the desired 2.x release, including its source checksum,
+Python requirement, dependencies, and entry points. Reset the build number to 0
+when changing the package version. Rerender the feedstock with
+`conda smithy rerender` and review the resulting recipe and CI configuration
+before publishing the branch to the upstream feedstock: pushing there triggers
+a build and package upload.
+
+Open subsequent 2.x update PRs from a fork against the upstream `v2.x` branch;
+target `main` for 3.x updates. The `bot.abi_migration_branches` setting in
+`conda-forge.yml` on `main` enables dependency migration PRs for `v2.x`.
+New 2.x releases must be updated manually; the bot only opens automatic version
+update PRs for the default branch. See the
+[conda-forge guide to maintaining several versions](https://conda-forge.org/docs/how-to/advanced/several-versions/).
+
 Feedstock Maintainers
 =====================
 
