@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: 3.3.1
+  version: 2.3.3
   python_min: '3.12'
 
 package:
@@ -10,7 +10,10 @@ package:
 
 source:
   url: https://files.pythonhosted.org/packages/source/c/ctadirac/ctadirac-${{ version }}.tar.gz
-  sha256: dcb5e2195ce0f5b68770663fb71b3e6139cc2d8d667550916ff0c2d54a71338a
+  sha256: 7578844f59788e020c4a8bd8738177b02c412d1d6ec51ac8fd18e5aa5a6467cc
+  patches:
+    # DIRAC 8.0.87 no longer needs pkg_resources.
+    - remove-setuptools-upper-bound.patch
 
 build:
   number: 0
@@ -18,27 +21,20 @@ build:
   script: ${{ PYTHON }} -m pip install . -vv
   python:
     entry_points:
-      - cta-dms-check-lfn = CTADIRAC.Core.scripts.cta_dms_check_lfn:main
       - cta-dms-register-virtual-lfn = CTADIRAC.Core.scripts.cta_dms_register_virtual_lfn:main
       - cta-prod-add-dataset = CTADIRAC.Core.scripts.cta_prod_add_dataset:main
       - cta-prod-add-file = CTADIRAC.Core.scripts.cta_prod_add_file:main
       - cta-prod-find-datasets = CTADIRAC.Core.scripts.cta_prod_find_datasets:main
+      - cta-prod-find-closest = CTADIRAC.Core.scripts.cta_prod_find_closest:app
       - cta-prod-create-dataset-description = CTADIRAC.Core.scripts.cta_prod_create_dataset_description:main
-      - cta-prod-create-evndisp-dataset-description = CTADIRAC.Core.scripts.cta_prod_create_evndisp_dataset_description:main
       - cta-prod-dump-dataset = CTADIRAC.Core.scripts.cta_prod_dump_dataset:main
       - cta-prod-failure-monitor = CTADIRAC.Core.scripts.cta_prod_failure_monitor:main
-      - cta-prod-fix-nsb = CTADIRAC.Core.scripts.cta_prod_fix_nsb:main
-      - cta-prod-mark-corrupted-DL0 = CTADIRAC.Core.scripts.cta_prod_mark_corrupted_DL0:main
       - cta-prod-get-file = CTADIRAC.Core.scripts.cta_prod_get_file:main
       - cta-prod-get-file-by-query = CTADIRAC.Core.scripts.cta_prod_get_file_by_query:main
       - cta-prod-get-replicas = CTADIRAC.Core.scripts.cta_prod_get_replicas:main
-      - cta-prod-get-se-status = CTADIRAC.Core.scripts.cta_prod_get_se_status:main
       - cta-prod-get-file-size = CTADIRAC.Core.scripts.cta_prod_get_file_size:main
-      - cta-prod-git-clone = CTADIRAC.Core.scripts.cta_prod_git_clone:main
       - cta-prod-managedata = CTADIRAC.Core.scripts.cta_prod_managedata:main
       - cta-prod-monitor = CTADIRAC.Core.scripts.cta_prod_monitor:main
-      - cta-prod-remove-corrupted-file = CTADIRAC.Core.scripts.cta_prod_remove_corrupted_file:main
-      - cta-prod-remove-corrupted-dl2 = CTADIRAC.Core.scripts.cta_prod_remove_corrupted_dl2:main
       - cta-prod-remove-dataset = CTADIRAC.Core.scripts.cta_prod_remove_dataset:main
       - cta-prod-remove-file = CTADIRAC.Core.scripts.cta_prod_remove_file:main
       - cta-prod-replicate-lfn = CTADIRAC.Core.scripts.cta_prod_replicate_lfn:main
@@ -50,14 +46,10 @@ build:
       - cta-prod-unregister-file = CTADIRAC.Core.scripts.cta_prod_unregister_file:main
       - cta-prod-unregister-replica = CTADIRAC.Core.scripts.cta_prod_unregister_replica:main
       - cta-prod-update-dataset = CTADIRAC.Core.scripts.cta_prod_update_dataset:main
-      - cta-prod-verifysteps = CTADIRAC.Core.scripts.cta_prod_verifysteps:main
       - cta-prod-check-replicas = CTADIRAC.Core.scripts.cta_prod_check_replicas:main
       - cta-prod-create-workflow-config = CTADIRAC.ProductionSystem.scripts.cta_prod_create_workflow_config:main
       - cta-prod-create-workflow-evndisp-config = CTADIRAC.ProductionSystem.scripts.cta_prod_create_workflow_evndisp_config:main
       - cta-prod-submit = CTADIRAC.ProductionSystem.scripts.cta_prod_submit:main
-      - cta-prod-submit-from-cwl = CTADIRAC.ProductionSystem.scripts.cta_prod_submit_from_cwl:main
-      - cta-prod-submit-from-cwl-workflow = CTADIRAC.ProductionSystem.scripts.cta_prod_submit_from_cwl_workflow:main
-      - cta-rms-request = CTADIRAC.Core.scripts.cta_rms_request:main
       - cta-transformation-add-files = CTADIRAC.Core.scripts.cta_transformation_add_files:main
       - cta-transformation-get-files = CTADIRAC.Core.scripts.cta_transformation_get_files:main
       - cta-transformation-clean = CTADIRAC.Core.scripts.cta_transformation_clean:main
@@ -65,7 +57,6 @@ build:
       - cta-transformation-get-tasks = CTADIRAC.Core.scripts.cta_transformation_get_tasks:main
       - cta-transformation-move-files = CTADIRAC.Core.scripts.cta_transformation_move_files:main
       - cta-transformation-move-dataset = CTADIRAC.Core.scripts.cta_transformation_move_dataset:main
-      - cta-transformation-move-dataset-status = CTADIRAC.Core.scripts.cta_transformation_move_dataset_status:main
       - cta-transformation-remove-replicas = CTADIRAC.Core.scripts.cta_transformation_remove_replicas:main
       - cta-transformation-test = CTADIRAC.Core.scripts.cta_transformation_test:main
       - cta-transformation-remove-files = CTADIRAC.Core.scripts.cta_transformation_remove_files:main
@@ -83,7 +74,7 @@ build:
 requirements:
   host:
     - python ${{ python_min }}.*
-    - setuptools >=61
+    - setuptools
     - setuptools-scm >=8
     - pip
   run:
@@ -92,7 +83,8 @@ requirements:
     - typer
     - ctao-datamodel
     - astropy-base
-    - dirac-grid ==9.1.20
+    - setuptools
+    - dirac-grid ==8.0.87
 tests:
   - python:
       python_version:

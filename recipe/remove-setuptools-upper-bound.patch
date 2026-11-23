@@ -1,0 +1,17 @@
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -20,12 +20,12 @@
+     "ruamel.yaml",
+     "typer[all]",
+     "ctao-datamodel",
+-    "setuptools<80",
++    "setuptools",
+ ]
+ dynamic = ["version"]
+ 
+ [build-system]
+-requires = ["setuptools<80", "setuptools_scm>=8"]
++requires = ["setuptools", "setuptools_scm>=8"]
+ build-backend = "setuptools.build_meta"
+ 
+ [tool.setuptools.packages.find]
